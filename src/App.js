@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useContext } from 'react';
 import './App.css';
+import { store } from './contexts';
 
-function App() {
+
+const App = (props) => {
+  const { product } = useContext(store);
+
+  const openAction = () => product.dispatch({
+    type: 'LIST_PRODUCTS', payload: {
+      name: 'Fanta', price: 4.5, location: "Refrigerated"
+    }
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <h1>
+      <ul>
+        <li>{product.list && product.list.map((it, i) => (
+          <div key={i}>{it.name} - {it.price}</div>
+        ))}</li>
+      </ul>
+      <button onClick={openAction}>ADD</button>
+    </h1>
   );
 }
 
